@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car and SportsCar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            width: 80%;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+    <div class="container">
+        <h2>Create a SportsCar</h2>
+        <input type="text" id="make" placeholder="Enter Make (e.g., Ferrari)">
+        <input type="text" id="model" placeholder="Enter Model (e.g., Testarossa)">
+        <input type="number" id="topSpeed" placeholder="Enter Top Speed (mph)">
+        <button onclick="createSportsCar()">Create SportsCar</button>
+        <h3 id="output"></h3>
+    </div>
 
+    <script>
+        // Car constructor function
+        function Car(make, model) {
+            this.make = make;
+            this.model = model;
+        }
+
+        // Adding getMakeModel method to Car prototype
+        Car.prototype.getMakeModel = function() {
+            return `${this.make} ${this.model}`;
+        };
+
+        // SportsCar constructor function inheriting from Car
+        function SportsCar(make, model, topSpeed) {
+            Car.call(this, make, model); // Call Car constructor
+            this.topSpeed = topSpeed;
+        }
+
+        // Inherit Car prototype
+        SportsCar.prototype = Object.create(Car.prototype);
+        SportsCar.prototype.constructor = SportsCar;
+
+        // Adding getTopSpeed method to SportsCar prototype
+        SportsCar.prototype.getTopSpeed = function() {
+            return this.topSpeed;
+        };
+
+        // Function to create a SportsCar instance and display info
+        function createSportsCar() {
+            const make = document.getElementById("make").value;
+            const model = document.getElementById("model").value;
+            const topSpeed = parseInt(document.getElementById("topSpeed").value);
+            
+            if (!make || !model || isNaN(topSpeed)) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+            
+            const car = new SportsCar(make, model, topSpeed);
+            document.getElementById("output").innerHTML = 
+                `Car: ${car.getMakeModel()} <br> Top Speed: ${car.getTopSpeed()} mph`;
+        }
+    </script>
 </body>
-
 </html>
